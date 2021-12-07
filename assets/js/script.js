@@ -1,3 +1,14 @@
+var movieTitleEl = $(".recorded-item-index");
+var movieDescEl = $(".movie-description");
+var movieDetailEl = $(".movie-details");
+var moviePosterEl = $(".poster");
+var starringEl = $(".starring");
+var ratingEl = $(".rating");
+var yearEl = $(".year");
+var directorEl = $(".director");
+var genreEl = $(".genre");
+var runtimeEl = $(".run-time");
+var websiteEl = $(".recorded-item-image a");
 
 
 function getRandomIntInclusive(min, max) {
@@ -16,6 +27,17 @@ var getImdbMovieDetails = function (movieID) {
           console.log("I am making it to movie details");
           if(data.errorMessage === null || data.errorMessage === ""){
             console.log("IMDB details", data);
+            movieTitleEl.text(data.title);
+            movieDescEl.text(data.plot);
+            moviePosterEl.attr("src", data.image);
+            starringEl.text("Starring: " + data.stars);
+            ratingEl.text("IMDb Rating: " + data.imDbRating + "/10");
+            yearEl.text(data.year);
+            directorEl.text("Director: " + data.directors);
+            genreEl.text(data.genres);
+            runtimeEl.text(data.runtimeStr);
+            websiteEl.attr("href", "https://www.imdb.com/title/" + data.id);
+
           } else {
             getLatestMovieTMDB();
           }
@@ -23,12 +45,12 @@ var getImdbMovieDetails = function (movieID) {
 
         });
       } else {
-        alert("Error: movie not found for given ID, IMDB");
+        console.log("Error: movie not found for given ID, IMDB");
         getLatestMovieTMDB();
       }
     })
     .catch(function(error) {
-      alert("unable to connect to IMDB");
+      console.log("unable to connect to IMDB");
     });
 }
 
@@ -49,12 +71,12 @@ var getImdbMovieID = function(movieTitle) {
 
         });
       } else {
-        alert("Error: ID not found for given movie title, IMDB");
+        console.log("Error: ID not found for given movie title, IMDB");
         getLatestMovieTMDB();
       }
     })
     .catch(function(error) {
-      alert("unable to connect to IMDB");
+      console.log("unable to connect to IMDB");
     });
 };
 
@@ -72,12 +94,12 @@ var getRandomMovieTMDB = function(randomNumber) {
 
         });
       } else {
-        alert("Error: movie not found for given int on TMDB");
+        console.log("Error: movie not found for given int on TMDB");
         getLatestMovieTMDB();
       }
     })
     .catch(function(error) {
-      alert("unable to connect to TMDB");
+      console.log("unable to connect to TMDB");
     });
 }
 
@@ -92,19 +114,25 @@ var getLatestMovieTMDB = function() {
           // return data.id;
           console.log(data.id);
           var randomNumber = getRandomIntInclusive(0, data.id);
+          movieTitleEl.text("Searching.....why are you in a rush? You're not gonna watch this anyways...");
           getRandomMovieTMDB(randomNumber);
 
         });
       } else {
-        alert("Error: movie not found for given int");
+        console.log("Error: Couldn't get latest movie ID from TMDB");
       }
     })
     .catch(function(error) {
-      alert("unable to connect to TMDB");
+      console.log("unable to connect to TMDB");
     });
 }
 
-getLatestMovieTMDB();
+// getLatestMovieTMDB();
 
+$(".searchBtn").on("click", function(event) {
 
-// getRandomMovieIMDB();
+  event.preventDefault();
+
+  getLatestMovieTMDB();
+  
+});
