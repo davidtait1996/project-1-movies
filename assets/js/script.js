@@ -9,6 +9,8 @@ var directorEl = $(".director");
 var genreEl = $(".genre");
 var runtimeEl = $(".run-time");
 var websiteEl = $(".recorded-item-image a");
+var langEl = $(".language");
+var surveyAreaEl = $(".survey-group");
 
 
 function getRandomIntInclusive(min, max) {
@@ -36,7 +38,9 @@ var getImdbMovieDetails = function (movieID) {
             directorEl.text("Director: " + data.directors);
             genreEl.text(data.genres);
             runtimeEl.text(data.runtimeStr);
+            langEl.text(data.languages);
             websiteEl.attr("href", "https://www.imdb.com/title/" + data.id);
+            surveyAreaEl.attr("style", "display:block");
 
           } else {
             getLatestMovieTMDB();
@@ -136,3 +140,5 @@ $(".searchBtn").on("click", function(event) {
   getLatestMovieTMDB();
   
 });
+
+surveyAreaEl.attr("style", "display:none");
