@@ -33,7 +33,7 @@ var getImdbMovieDetails = function (movieID) {
             movieDescEl.text(data.plot);
             moviePosterEl.attr("src", data.image);
             starringEl.text("Starring: " + data.stars);
-            ratingEl.text("IMDb Rating: " + data.imDbRating + "/10");
+            ratingEl.text("IMDb Rating: " + data.imDbRating + "/10⭐");
             yearEl.text(data.year);
             directorEl.text("Director: " + data.directors);
             genreEl.text(data.genres);
