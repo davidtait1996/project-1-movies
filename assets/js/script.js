@@ -41,6 +41,7 @@ var getImdbMovieDetails = function (movieID) {
             langEl.text(data.languages);
             websiteEl.attr("href", "https://www.imdb.com/title/" + data.id);
             surveyAreaEl.attr("style", "display:block");
+            moviePosterEl.attr("style", "display:block");
 
           } else {
             getLatestMovieTMDB();
@@ -142,3 +143,4 @@ $(".searchBtn").on("click", function(event) {
 });
 
 surveyAreaEl.attr("style", "display:none");
+moviePosterEl.attr("style", "display:none");
