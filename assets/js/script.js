@@ -165,21 +165,27 @@ var getLatestMovieTMDB = function() {
 
 var searchHistory = function(){
   historyEl.html("");
-  for (var i = 0; i < localStorage.length; i++){
-    var movieData = JSON.parse(localStorage.getItem(localStorage.key(i)));
-    console.log(movieData);
+  if(localStorage.length > 0){
+    for (var i = 0; i < localStorage.length; i++){
+      
+      if(localStorage.getItem(localStorage.key(i))){
+        var movieData = JSON.parse(localStorage.getItem(localStorage.key(i)));
+        var newMovieEl = $("<div>");
+        var movieDetails = $("<ul>").text(movieData.title);
+        movieDetails.append(
+          $("<li>").text(movieData.date),
+          $("<li>").text(movieData.result)
+        )
     
-    var newMovieEl = $("<div>");
-    var movieDetails = $("<ul>").text(movieData.title);
-    movieDetails.append(
-      $("<li>").text(movieData.date),
-      $("<li>").text(movieData.result)
-    )
+        newMovieEl.append(movieDetails);
+    
+        historyEl.append(newMovieEl);
+      }
+      
 
-    newMovieEl.append(movieDetails);
-
-    historyEl.append(newMovieEl);
+    }
   }
+
 }
 
 $(".searchBtn").on("click", function(event) {
