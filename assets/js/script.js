@@ -11,6 +11,7 @@ var runtimeEl = $(".run-time");
 var websiteEl = $(".recorded-item-image a");
 var langEl = $(".language");
 var surveyAreaEl = $(".survey-group");
+var detailsEl = $("section");
 
 
 function getRandomIntInclusive(min, max) {
@@ -29,19 +30,34 @@ var getImdbMovieDetails = function (movieID) {
           console.log("I am making it to movie details");
           if(data.errorMessage === null || data.errorMessage === ""){
             console.log("IMDB details", data);
+            detailsEl.attr("style", "display:block");
+            $(".searchBtn").text("Start Chilling")
             movieTitleEl.text(data.title);
             movieDescEl.text(data.plot);
             moviePosterEl.attr("src", data.image);
-            starringEl.text("Starring: " + data.stars);
-            ratingEl.text("IMDb Rating: " + data.imDbRating + "/10⭐");
+            if(data.stars === "" || data.stars === null) {
+              starringEl.attr("style", "display:none");
+            } else {
+              starringEl.text("Starring: " + data.stars);
+              starringEl.attr("style", "display:block");
+            }
+            console.log(typeof data.imDbRating);
+            if(data.imDbRating === null || data.imDbRating === ""){
+              ratingEl.attr("style", "display: none");
+            } else {
+              ratingEl.text("IMDb Rating: " + data.imDbRating + "/10⭐");
+              ratingEl.attr("style", "display: block");
+            }
+            
             yearEl.text(data.year);
             directorEl.text("Director: " + data.directors);
             genreEl.text(data.genres);
             runtimeEl.text(data.runtimeStr);
-            langEl.text(data.languages);
+            langEl.text("Language: " + data.languages);
             websiteEl.attr("href", "https://www.imdb.com/title/" + data.id);
             surveyAreaEl.attr("style", "display:block");
             moviePosterEl.attr("style", "display:block");
+
 
           } else {
             getLatestMovieTMDB();
@@ -115,11 +131,11 @@ var getLatestMovieTMDB = function() {
       if (response.ok) {
         response.json().then(function(data) {
           
-          // console.log("TMDB", data.id);
-          // return data.id;
-          console.log(data.id);
+          console.log("TMDB", data.id);
           var randomNumber = getRandomIntInclusive(0, data.id);
-          movieTitleEl.text("Searching.....why are you in a rush? You're not gonna watch this anyways...");
+          detailsEl.attr("style", "display:none");
+          // movieTitleEl.text("Searching.....why are you in a rush? You're not gonna watch this anyways...");
+          $(".searchBtn").text("Searching...")
           getRandomMovieTMDB(randomNumber);
 
         });
