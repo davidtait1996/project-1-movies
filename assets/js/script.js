@@ -10,8 +10,10 @@ var genreEl = $(".genre");
 var runtimeEl = $(".run-time");
 var websiteEl = $(".recorded-item-image a");
 var langEl = $(".language");
-var surveyAreaEl = $(".survey-group");
+var surveyAreaEl = $(".survey-area");
 var detailsEl = $("section");
+var historyEl = $("#history");
+
 var currentMovie = "";
 var dateFormat = 'M[/]D[/]YYYY'
 
@@ -41,7 +43,13 @@ var getImdbMovieDetails = function (movieID) {
 
             movieTitleEl.text(data.title);
             movieDescEl.text(data.plot);
-            moviePosterEl.attr("src", data.image);
+            if(data.image === "https://imdb-api.com/images/original/nopicture.jpg"){
+              moviePosterEl.attr("style", "display:none");
+            } else {
+              moviePosterEl.attr("src", data.image);
+              moviePosterEl.attr("style", "display:block");
+            }
+            
             if(data.stars === "" || data.stars === null) {
               starringEl.attr("style", "display:none");
             } else {
@@ -155,7 +163,24 @@ var getLatestMovieTMDB = function() {
     });
 }
 
-// getLatestMovieTMDB();
+var searchHistory = function(){
+  historyEl.html("");
+  for (var i = 0; i < localStorage.length; i++){
+    var movieData = JSON.parse(localStorage.getItem(localStorage.key(i)));
+    console.log(movieData);
+    
+    var newMovieEl = $("<div>");
+    var movieDetails = $("<ul>").text(movieData.title);
+    movieDetails.append(
+      $("<li>").text(movieData.date),
+      $("<li>").text(movieData.result)
+    )
+
+    newMovieEl.append(movieDetails);
+
+    historyEl.append(newMovieEl);
+  }
+}
 
 $(".searchBtn").on("click", function(event) {
 
@@ -169,15 +194,20 @@ $("#survey").change(function(event) {
 
   formText = $(this).val();
   var movieSurveyObj = {
+    title: currentMovie.title,
     date: moment().format(dateFormat),
     result: formText
   }
 
   localStorage.setItem(currentMovie.title, JSON.stringify(movieSurveyObj));
-  
+
   surveyAreaEl.attr("style", "display:none");
 
+  searchHistory();
 })
+
 
 surveyAreaEl.attr("style", "display:none");
 moviePosterEl.attr("style", "display:none");
+
+searchHistory();
