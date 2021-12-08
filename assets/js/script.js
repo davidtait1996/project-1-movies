@@ -12,6 +12,8 @@ var websiteEl = $(".recorded-item-image a");
 var langEl = $(".language");
 var surveyAreaEl = $(".survey-group");
 var detailsEl = $("section");
+var currentMovie = "";
+var dateFormat = 'M[/]D[/]YYYY'
 
 
 function getRandomIntInclusive(min, max) {
@@ -31,7 +33,12 @@ var getImdbMovieDetails = function (movieID) {
           if(data.errorMessage === null || data.errorMessage === ""){
             console.log("IMDB details", data);
             detailsEl.attr("style", "display:block");
-            $(".searchBtn").text("Start Chilling")
+            surveyAreaEl.attr("style", "display:block");
+
+            currentMovie = data;
+
+            $(".searchBtn").text("Start Chilling");
+
             movieTitleEl.text(data.title);
             movieDescEl.text(data.plot);
             moviePosterEl.attr("src", data.image);
@@ -157,6 +164,20 @@ $(".searchBtn").on("click", function(event) {
   getLatestMovieTMDB();
   
 });
+
+$("#survey").change(function(event) {
+
+  formText = $(this).val();
+  var movieSurveyObj = {
+    date: moment().format(dateFormat),
+    result: formText
+  }
+
+  localStorage.setItem(currentMovie.title, JSON.stringify(movieSurveyObj));
+  
+  surveyAreaEl.attr("style", "display:none");
+
+})
 
 surveyAreaEl.attr("style", "display:none");
 moviePosterEl.attr("style", "display:none");
