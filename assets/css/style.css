@@ -28,3 +28,10 @@ body{
     font-size: 60px;
 
 }
+.poster {
+    margin:auto;
+}
+.survey-group {
+    margin-bottom: 30px;
+    margin-top: 50px;
+}
