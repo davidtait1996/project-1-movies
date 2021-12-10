@@ -3,7 +3,7 @@ html {
 }
 
 body{
-    background-image: linear-gradient(160deg, #45150d, #6d0422);
+    background-image: linear-gradient(140deg, #3f140d, #720322);
     color: #eebcd8;
 }
 .searchBtn{
@@ -32,6 +32,15 @@ body{
     margin:auto;
 }
 .survey-group {
+    margin: auto;
     margin-bottom: 30px;
-    margin-top: 50px;
+    margin-top: 30px;
+}
+#history{
+    margin-bottom: 30px;
+    margin-top: 15px;
+}
+#history ul {
+    background-color: #3b0e36;
+    border-radius: 5px;
 }
