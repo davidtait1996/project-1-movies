@@ -44,6 +44,7 @@ var getImdbMovieDetails = function (movieID) {
             movieTitleEl.text(data.title);
             movieDescEl.text(data.plot);
             if(data.image === "https://imdb-api.com/images/original/nopicture.jpg"){
+              moviePosterEl.attr("src", "");
               moviePosterEl.attr("style", "display:none");
             } else {
               moviePosterEl.attr("src", data.image);
